@@ -1,18 +1,12 @@
 import InputData from "./components/inputs";
-import SavedData from "./components/savedData";
 
 function App() {
   return (
     <>
-      
-
-        <h1 className="text-center text-6xl font-bold mt-5 mb-5">
-          Workout Tracker
-        </h1>
-        <InputData />
-        <SavedData />
-      
-      
+      <h1 className="text-center text-6xl font-bold mt-5 mb-5">
+        Workout Tracker
+      </h1>
+      <InputData />
     </>
   );
 }
