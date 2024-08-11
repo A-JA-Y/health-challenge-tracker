@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import ReactSearchBox from "react-search-box";
 
 function InputData() {
   let [dataArr, setDataArr] = useState([]);
@@ -72,9 +72,56 @@ function InputData() {
               Add Workout
             </button>
           </div>
-          <div className="saved">
+          <div className="saved ">
             <h2 className="text-2xl font-bold mt-5">Saved Workouts</h2>
-            <div className="container mx-auto p-4">
+            <div className="container  mx-auto p-4">
+              <div className="searchFilter flex items-center my-auto gap-3">
+                {/* Search box */}
+                <ReactSearchBox
+                  placeholder="Search by name"
+                  data={dataArr.map((item) => ({
+                    key: item.name,
+                    value: item.name,
+                  }))}
+                  onSelect={(record) => {
+                    const filteredData = dataArr.filter(
+                      (item) => item.name === record.value
+                    );
+                    setDataArr(filteredData);
+                  }}
+                />
+                {/* Filter by workout */}
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center">
+                    <label htmlFor="filter">Filter by workout</label>
+                    <select
+                      name="filter"
+                      id="filter"
+                      className="border border-gray-400 p-2 ml-2 rounded-md"
+                      onChange={(e) => {
+                        const filterValue = e.target.value;
+                        if (filterValue === "all") {
+                          let workoutData = localStorage.getItem("workoutData");
+                          if (workoutData) {
+                            setDataArr(JSON.parse(workoutData));
+                          }
+                        } else {
+                          const filteredData = dataArr.filter(
+                            (item) => item.type === filterValue
+                          );
+                          setDataArr(filteredData);
+                        }
+                      }}
+                    >
+                      <option value="all">All</option>
+                      <option value="Cycling">Cycling</option>
+                      <option value="Running">Running</option>
+                      <option value="Cardio">Cardio</option>
+                      <option value="Yoga">Yoga</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
               {dataArr.length > 0 ? (
                 <table className="min-w-full bg-white border border-gray-200">
                   <thead>
@@ -109,15 +156,12 @@ function InputData() {
                     ))}
                   </tbody>
                 </table>
-                
-                
               ) : (
                 <div className="text-center text-xl mt-4">
                   No data available
                 </div>
               )}
             </div>
-               
           </div>
         </div>
       </div>
